@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
+  <link rel="stylesheet" href="styles/style.css">
+  <title>Frontend Mentor | Tic Tac Toe</title>
+</head>
+
+<body>
+  <div class="menu-container">
+    <div class="menu-header">
+      <img src="./assets/logo.svg" alt="logo">
+    </div>
+    <div class="menu-body">
+      <div class="picker-container">
+        <h3 class="heading-xs">PICK PLAYER 1'S MARK</h3>
+        <div class="picker-content flex">
+          <button id="X-btn" class="button"><img src="./assets/X.svg" alt="x"></button>
+          <button class="button active-btn" id="O-btn"><img src="./assets/O.svg" alt="o"></button>
+        </div>
+        <h4 class="body-t">REMEMBER: X GOES FIRST</h4>
+      </div>
+      <div class="buttons-container">
+        <button class="orange-button heading-s cpu">NEW GAME (VS CPU)</button>
+        <button class="blue-button heading-s player">NEW GAME (VS PLAYER)</button>
+      </div>
+    </div>
+  </div>
+  <div class="game-container">
+    <div class="game-header flex">
+      <div class="logo">
+        <img src="./assets/logo.svg" alt="logo">
+      </div>
+      <div class="turn-btn heading-xs flex" id="turn-btn"><img src="./assets/X.svg" id="turn-image">TURN</div>
+      <button class="restart-btn secondary-button" id="restart-btn"><img src="./assets/icon-restart.svg"
+          alt="restart"></button>
+    </div>
+    <div class="game-body">
+      <div class="game-item" data-index = "0"></div>
+      <div class="game-item" data-index = "1"></div>
+      <div class="game-item" data-index = "2"></div>
+      <div class="game-item" data-index = "3"></div>
+      <div class="game-item" data-index = "4"></div>
+      <div class="game-item" data-index = "5"></div>
+      <div class="game-item" data-index = "6"></div>
+      <div class="game-item" data-index = "7"></div>
+      <div class="game-item" data-index = "8"></div>
+    </div>
+    <div class="game-about flex">
+      <div class="you body-t">
+        <span>X (YOU)</span>
+        <span class="heading-m" id="you-score">0</span>
+      </div>
+      <div class="ties body-t">
+        <span>TIES</span>
+        <span class="heading-m" id="tie-score">0</span>
+      </div>
+      <div class="cpu body-t">
+        <span>O (CPU)</span>
+        <span class="heading-m" id="cpu-score">0</span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="dark-panel" id="dark-panel"></div>
+  <div class="panel" id="panel">
+    <!-- <div class="answer">
+      <p id="win-answer" class="heading-xs">OH NO, YOU LOST…</p>
+      <div class="round flex">
+        <img src="./assets/icon-o.svg" alt="o">
+        <p id="take-round" class="heading-l">TAKES THE ROUND</p>
+      </div>
+      <div class="answer-buttons flex">
+        <button class="secondary-button heading-xs quit">QUIT</button>
+        <button class="orange-button heading-xs next">NEXT ROUND</button>
+      </div>
+    </div> -->
+    <!-- <div class="restart-panel">
+      <h2 class="heading-l">RESTART GAME?</h2>
+      <div class="answer-buttons flex">
+        <button class="secondary-button heading-xs quit">NO, CANCEL</button>
+        <button class="orange-button heading-xs next">YES, RESTART</button>
+      </div>
+    </div> -->
+  </div>
+  <script src="js/script.js"></script>
+</body>
+
+</html>
