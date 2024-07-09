@@ -19,7 +19,6 @@ answer_buttons.appendChild(re_btn);
 restart_panel.appendChild(restart_text);
 restart_panel.appendChild(answer_buttons);
 panel.appendChild(restart_panel);
-///////////////////////////////////////////
 let answer = document.createElement('div');
 answer.classList.add('answer');
 win_answer = document.createElement('p');
@@ -28,7 +27,6 @@ win_answer.textContent = 'OH NO, YOU LOST…';
 let round = document.createElement('div');
 round.classList.add('round', 'flex');
 let round_img = document.createElement('img');
-// round_img.src = './assets/icon-o.svg';
 let take_round = document.createElement('p');
 take_round.classList.add('take-round', 'heading-l');
 take_round.textContent = 'TAKES THE ROUND';
@@ -49,7 +47,6 @@ answer.appendChild(win_answer);
 answer.appendChild(round);
 answer.appendChild(answer_buttons);
 panel.appendChild(answer);
-//////////////////////////////////////////
 const menu_container = document.querySelector('.menu-container');
 const game_container = document.querySelector('.game-container');
 let game_item = document.querySelectorAll('.game-item');
@@ -60,6 +57,11 @@ let cpu_score_num = 0;
 let tie_score = document.getElementById('tie-score');
 let tie_score_num = 0;
 let currentPlayer = 'x';
+let isVScpu = false;
+let xText = document.getElementById('xyou');
+let tiesText = document.getElementById('ties');
+let oCpuText = document.getElementById('ocpu');
+let isClickable = true;
 let gameBoard = ['', '', '', '', '', '', '', '', ''];
 let gameOver = false;
 const winVariants =
@@ -125,7 +127,7 @@ function announceWinner(winner) {
         round_img.src = './assets/icon-x.svg';
         take_round.style.color = '#31C3BD';
         win_answer.textContent = `PLAYER 1 WINS!`;
-        
+
         win_answer.style.display = 'block';
         round_img.style.display = 'block';
         take_round.style.display = 'block';
@@ -175,11 +177,78 @@ function announceDraw() {
     take_round.style.width = '100%';
     take_round.style.color = '#A8BFC9';
     take_round.textContent = `ROUND TIED`;
-    tie_score_num += 1/8;
+    tie_score_num += 1 / 8;
     tie_score.innerHTML = tie_score_num;
 }
 amigo_btn.addEventListener('click', onstartGame);
-cpu_btn.addEventListener('click', onstartGame);
+cpu_btn.addEventListener('click', function () {
+    onstartGame();
+    turn_element.style.display = 'none';
+    const activeBtn = document.querySelector('.active-btn')
+    if (activeBtn === x_btn) {
+        currentPlayer = 'x';
+        aiPlayer = 'o';
+    } else if (activeBtn === o_btn) {
+        currentPlayer = 'o';
+        aiPlayer = 'x';
+    }
+    isVScpu = true;
+    if (isVScpu) {
+        xText.innerHTML = 'X';
+        oCpuText.innerHTML = 'O';
+        game_item.forEach((gameItem) => {
+            gameItem.addEventListener('click', function (event) {
+                if (isClickable) {
+                    handleGameCPU(event);
+                    isClickable = false;
+                    setTimeout(() => {
+                        isClickable = true;
+                    }, 1200);
+                }
+            });
+        });
+    }
+});
+function handleGameCPU(event) {
+    const index = event.target.dataset.index;
+    if (gameBoard[index] === '') {
+        gameBoard[index] = currentPlayer;
+        if (currentPlayer === 'x') {
+            xo_image.src = './assets/icon-x.svg';
+            event.target.innerHTML = `<img src="${xo_image.src}">`;
+        } else {
+            xo_image.src = './assets/icon-o.svg';
+            event.target.innerHTML = `<img src="${xo_image.src}">`;
+        }
+        checkWin();
+        currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+        setTimeout(() => {
+            computerMove();
+        }, 1000);
+    }
+}
+function computerMove() {
+    let availableMoves = [];
+    for (let i = 0; i < 9; i++) {
+        if (gameBoard[i] === '') {
+            availableMoves.push(i);
+        }
+    }
+    let randomIndex = Math.floor(Math.random() * availableMoves.length);
+    let moveIndex = availableMoves[randomIndex];
+    gameBoard[moveIndex] = currentPlayer;
+    if (currentPlayer === 'x') {
+        xo_image.src = './assets/icon-x.svg';
+        game_item[moveIndex].innerHTML = `<img src="${xo_image.src}">`;
+        game_item[moveIndex].innerHTML = `<img src="${xo_image.src}">`;
+    } else {
+        xo_image.src = './assets/icon-o.svg';
+    }
+    gameBoard[moveIndex] = currentPlayer;
+    game_item[moveIndex].innerHTML = `<img src="${xo_image.src}">`;
+    checkWin();
+    currentPlayer = currentPlayer === 'x' ? 'o' : 'x';
+}
 buttons.forEach((button) => {
     button.addEventListener('click', () => {
         buttons.forEach((btn) => btn.classList.remove('active-btn'));
@@ -187,14 +256,23 @@ buttons.forEach((button) => {
         if (x_btn.classList.contains('active-btn')) {
             x_btn.querySelector('img').src = './assets/X.png';
             o_btn.querySelector('img').src = './assets/O.png';
+            currentPlayer = 'x';
+            aiPlayer = 'o';
+            game_item.forEach((gameItem) => {
+                gameItem.addEventListener('click', handleGameCPU);
+            });
         }
         else {
             o_btn.querySelector('img').src = './assets/O.svg';
             x_btn.querySelector('img').src = './assets/X.svg';
+            currentPlayer = 'o';
+            aiPlayer = 'x';
+            game_item.forEach((gameItem) => {
+                gameItem.addEventListener('click', handleGameCPU);
+            });
         }
     });
 });
-
 restart_btn.addEventListener('click', onRestartButton);
 cancel_btn.addEventListener('click', forNone);
 quit_btn.addEventListener('click', function () {
@@ -217,7 +295,6 @@ function restartGame() {
 function onPanel() {
     dark_panel.style.display = 'block';
     panel.style.display = 'block';
-    console.log("onPanel-function works");
 }
 next_btn.addEventListener('click', nextRound);
 re_btn.addEventListener('click', restartGame);
@@ -225,10 +302,10 @@ function nextRound() {
     forNone();
     gameBoard = ['', '', '', '', '', '', '', '', ''];
     gameOver = false;
-    currentPlayer = 'x';
     game_item.forEach((item) => {
         item.style.backgroundColor = '';
     });
+    currentPlayer = 'x';
     answer.style.display = 'none';
     win_answer.style.display = 'none';
     round_img.style.display = 'none';
@@ -236,6 +313,7 @@ function nextRound() {
     game_item.forEach((item) => {
         item.innerHTML = '';
     });
+
 }
 amigo_btn.addEventListener('click', function () {
     onstartGame();
@@ -263,18 +341,15 @@ amigo_btn.addEventListener('click', function () {
         });
     });
 });
-cpu_btn.addEventListener('click', onstartGame);
 function onstartGame() {
     game_container.style.display = 'block';
     menu_container.style.display = 'none';
     gameBoard = ['', '', '', '', '', '', '', '', ''];
     gameOver = false;
-    console.log("onstartGame-function works");
 }
 function forNone() {
     dark_panel.style.display = 'none';
     panel.style.display = 'none';
     answer.style.display = 'none';
     restart_panel.style.display = 'none';
-    console.log("forNone-function works");
 }
