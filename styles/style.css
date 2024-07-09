@@ -361,14 +361,38 @@ body
 {
     body
     {
-        padding: 10px;
+        padding-top: 10px;
         margin: 0;
         width: 100%;
         height: 100vh;
+        overflow: visible;
     }
     .menu-container
     {
         width: 100%;
         margin: 0;
+    }
+    .game-container
+    {
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    .panel .answer
+    {
+        width: 100%;
+    }
+    .panel .answer-buttons
+    {
+        width: 90%;
+        margin: 0 auto;
+    }
+    .panel .restart-panel
+    {
+        width: 100%;
+    }
+    .game-container .game-body
+    {
+        gap: 0;
     }
 }
