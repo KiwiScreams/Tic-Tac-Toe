@@ -258,19 +258,17 @@ buttons.forEach((button) => {
             o_btn.querySelector('img').src = './assets/O.png';
             currentPlayer = 'x';
             aiPlayer = 'o';
-            game_item.forEach((gameItem) => {
-                gameItem.addEventListener('click', handleGameCPU);
-            });
+            
         }
         else {
             o_btn.querySelector('img').src = './assets/O.svg';
             x_btn.querySelector('img').src = './assets/X.svg';
             currentPlayer = 'o';
             aiPlayer = 'x';
-            game_item.forEach((gameItem) => {
-                gameItem.addEventListener('click', handleGameCPU);
-            });
         }
+        // game_item.forEach((gameItem) => {
+        //         gameItem.addEventListener('click', handleGameCPU);
+        //     });
     });
 });
 restart_btn.addEventListener('click', onRestartButton);
